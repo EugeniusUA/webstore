@@ -19,11 +19,21 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.getAllProducts();
     }
 
-    @Override
     public List<Product> getProductsByCategory(String category) {
         return productRepository.getProductsByCategory(category);
     }
     public Set<Product> getProductsByFilter(Map<String, List<String>> filterParams) {
         return productRepository.getProductsByFilter(filterParams);
+    }
+
+    @Override
+    public Product getProductById(String productId) {
+        Product productById = null;
+        for(Product product: getAllProducts()){
+            if (productId.equalsIgnoreCase(product.getProductId())){
+                productById =  product;
+            }
+        }
+       return productById;
     }
 }
