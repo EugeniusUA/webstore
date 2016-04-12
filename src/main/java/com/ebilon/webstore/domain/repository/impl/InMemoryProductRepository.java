@@ -85,4 +85,43 @@ public class InMemoryProductRepository implements ProductRepository {
         }
         return productsByBrand;
     }
+
+    @Override
+    public List<Product> getProductsByPriceRangeAndManufacturer(Map<String, List<String>> priceParams,String manufacturer) {
+        List<Product> productsByManufacturer = new ArrayList<>();
+        for (Product product: listOfProducts){
+            if (manufacturer.equalsIgnoreCase(product.getManufacturer())){
+                productsByManufacturer.add(product);
+            }
+        }
+        productsByManufacturer.retainAll(getProductByPriceRange(priceParams));
+        return productsByManufacturer;
+    }
+
+    @Override
+    public Set<Product> getProductByPriceRange(Map<String, List<String>> priceParams) {
+        Set<Product> productsByPriceRange = new HashSet<>();
+        Set<Product> productsByLowPriceRange = new HashSet<>();
+        Set<String> priceCriteria = priceParams.keySet();
+        if(priceCriteria.contains("price")) {
+            for(String low: priceParams.get("high")) {
+                BigDecimal highPrice = new BigDecimal(low);
+                for(Product product: listOfProducts) {
+                    if(product.getUnitPrice().doubleValue() <= highPrice.doubleValue()){
+                        productsByPriceRange.add(product);
+                    }
+                }
+            }
+            for(String low: priceParams.get("low")) {
+                BigDecimal lowPrice = new BigDecimal(low);
+                for(Product product: listOfProducts) {
+                    if(product.getUnitPrice().doubleValue() >= lowPrice.doubleValue()){
+                        productsByLowPriceRange.add(product);
+                    }
+                }
+            }
+        }
+        productsByPriceRange.retainAll(productsByLowPriceRange);
+        return productsByPriceRange;
+    }
 }
