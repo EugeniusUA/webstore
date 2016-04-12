@@ -11,6 +11,7 @@ import com.ebilon.webstore.domain.Product;
 public class ProductController {
     @Autowired
     private ProductService productService;
+
     @RequestMapping("/products")
     public String list(Model model) {
         Product iphone = new Product("P1234","iPhone 5s", new BigDecimal(500));
