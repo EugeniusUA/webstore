@@ -101,27 +101,28 @@ public class InMemoryProductRepository implements ProductRepository {
     @Override
     public Set<Product> getProductByPriceRange(Map<String, List<String>> priceParams) {
         Set<Product> productsByPriceRange = new HashSet<>();
-        Set<Product> productsByLowPriceRange = new HashSet<>();
         Set<String> priceCriteria = priceParams.keySet();
-        if(priceCriteria.contains("price")) {
-            for(String low: priceParams.get("high")) {
-                BigDecimal highPrice = new BigDecimal(low);
-                for(Product product: listOfProducts) {
-                    if(product.getUnitPrice().doubleValue() <= highPrice.doubleValue()){
-                        productsByPriceRange.add(product);
-                    }
-                }
+        BigDecimal highPrice = null;
+        BigDecimal lowPrice = null;
+        if(priceCriteria.contains("high")) {
+            for (String high : priceParams.get("high")) {
+                highPrice = new BigDecimal(high);
             }
-            for(String low: priceParams.get("low")) {
-                BigDecimal lowPrice = new BigDecimal(low);
-                for(Product product: listOfProducts) {
-                    if(product.getUnitPrice().doubleValue() >= lowPrice.doubleValue()){
-                        productsByLowPriceRange.add(product);
-                    }
+        }
+        if(priceCriteria.contains("low")) {
+            for (String low : priceParams.get("low")) {
+                lowPrice = new BigDecimal(low);
+            }
+        }
+        if (lowPrice != null && highPrice != null) {
+            for (Product product : listOfProducts) {
+                double unitPrice = product.getUnitPrice().doubleValue();
+                if (unitPrice >= lowPrice.doubleValue() &&
+                        unitPrice <= highPrice.doubleValue()) {
+                    productsByPriceRange.add(product);
                 }
             }
         }
-        productsByPriceRange.retainAll(productsByLowPriceRange);
         return productsByPriceRange;
     }
 }
