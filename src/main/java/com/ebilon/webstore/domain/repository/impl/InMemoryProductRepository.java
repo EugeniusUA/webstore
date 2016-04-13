@@ -126,4 +126,9 @@ public class InMemoryProductRepository implements ProductRepository {
         }
         return productsByPriceRange;
     }
+
+    @Override
+    public void addProduct(Product product) {
+        listOfProducts.add(product);
+    }
 }

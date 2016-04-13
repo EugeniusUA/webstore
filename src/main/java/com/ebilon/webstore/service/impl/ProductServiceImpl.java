@@ -41,4 +41,9 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getProductsByManufacturer(String category,Map<String, List<String>> priceParams,String manufacturer) {
         return productRepository.getProductsByPriceRangeAndManufacturer(category,priceParams,manufacturer);
     }
+
+    @Override
+    public void addProduct(Product product) {
+        productRepository.addProduct(product);
+    }
 }

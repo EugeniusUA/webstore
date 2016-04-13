@@ -7,11 +7,8 @@ import com.ebilon.webstore.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.MatrixVariable;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import com.ebilon.webstore.domain.Product;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/products")
@@ -57,5 +54,16 @@ public class ProductController {
     public String filterProducts(@PathVariable String category,@MatrixVariable(pathVar = "price")Map<String,List<String>> priceParams, @RequestParam String manufacturer,Model model ){
         model.addAttribute("products",productService.getProductsByManufacturer(category,priceParams,manufacturer));
         return "products";
+    }
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public String getAddNewProductForm(Model model) {
+        Product newProduct = new Product();
+        model.addAttribute("newProduct", newProduct);
+        return "addProduct";
+    }
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public String processAddNewProductForm(@ModelAttribute("newProduct")Product newProduct) {
+        productService.addProduct(newProduct);
+        return "redirect:/products";
     }
 }
