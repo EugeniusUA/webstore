@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 <head>
@@ -13,6 +14,7 @@
             <h1>Products</h1>
             <p>Add products</p>
         </div>
+        <a href="<c:url value="/j_spring_security_logout" />" class="btn btndanger btn-mini pull-right">logout</a>
     </div>
 </section>
 <section class="container">
@@ -21,7 +23,7 @@
             <legend>Add new product</legend>
             <div class="form-group">
                 <label class="control-label col-lg-2 col-lg-2"
-                       for="productId">Product Id</label>
+                       for="productId"><spring:message code= "addProduct.form.productId.label"/> </label>
 
                 <div class="col-lg-10">
                     <form:input id="productId" path="productId" type="text"
