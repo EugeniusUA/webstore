@@ -12,4 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
             model.addAttribute("tagline", "The one and only amazing webstore");
             return "welcome";
         }
+        @RequestMapping("/welcome/greeting")
+        public String greeting() {
+           return  "welcome";
+        }
 }
