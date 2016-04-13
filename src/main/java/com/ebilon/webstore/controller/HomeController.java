@@ -16,4 +16,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
         public String greeting() {
            return  "welcome";
         }
+
 }
