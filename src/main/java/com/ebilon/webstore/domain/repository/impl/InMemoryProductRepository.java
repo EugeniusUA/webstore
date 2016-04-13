@@ -87,7 +87,7 @@ public class InMemoryProductRepository implements ProductRepository {
     }
 
     @Override
-    public List<Product> getProductsByPriceRangeAndManufacturer(Map<String, List<String>> priceParams,String manufacturer) {
+    public List<Product> getProductsByPriceRangeAndManufacturer(String category,Map<String, List<String>> priceParams,String manufacturer) {
         List<Product> productsByManufacturer = new ArrayList<>();
         for (Product product: listOfProducts){
             if (manufacturer.equalsIgnoreCase(product.getManufacturer())){
@@ -95,6 +95,7 @@ public class InMemoryProductRepository implements ProductRepository {
             }
         }
         productsByManufacturer.retainAll(getProductByPriceRange(priceParams));
+        productsByManufacturer.retainAll(getProductsByCategory(category));
         return productsByManufacturer;
     }
 
