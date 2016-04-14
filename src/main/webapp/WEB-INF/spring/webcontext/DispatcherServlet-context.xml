@@ -25,7 +25,7 @@ http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.3.x
         <property name="flowRegistry" ref="flowRegistry" />
     </bean>
     <bean id="flowHandlerAdapter"
-          class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter">
+          class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter" >
         <property name="flowExecutor" ref="flowExecutor" />
     </bean>
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
