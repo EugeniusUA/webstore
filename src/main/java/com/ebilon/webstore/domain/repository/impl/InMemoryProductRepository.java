@@ -2,6 +2,7 @@ package com.ebilon.webstore.domain.repository.impl;
 
 import com.ebilon.webstore.domain.Product;
 import com.ebilon.webstore.domain.repository.ProductRepository;
+import com.ebilon.webstore.exception.NoProductFound;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -47,7 +48,7 @@ public class InMemoryProductRepository implements ProductRepository {
             }
         }
     if (productById == null){
-        throw new IllegalArgumentException("No prodcts found with the product id: "+productId);
+        throw new NoProductFound("No prodcts found with the product id: "+productId);
     }
         return productById;
     }

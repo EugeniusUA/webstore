@@ -4,7 +4,10 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import com.ebilon.webstore.exception.NoProductFound;
+import com.ebilon.webstore.exception.NoProductsFoundUnderCategoryException;
 import com.ebilon.webstore.service.ProductService;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import com.ebilon.webstore.domain.Product;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -42,7 +46,11 @@ public class ProductController {
     @RequestMapping("/{category}")
     public String getProductsByCategoty(Model model,
                                         @PathVariable String category){
-     model.addAttribute("products",productService.getProductsByCategory(category));
+     List<Product> products = productService.getProductsByCategory(category);
+        if (products == null || products.isEmpty()){
+            throw new NoProductsFoundUnderCategoryException();
+        }
+        model.addAttribute("products",products);
         return "products";
     }
     @RequestMapping("/filter/{ByCriteria}")
@@ -53,8 +61,8 @@ public class ProductController {
     @RequestMapping("/product")
     public String getProductById(@RequestParam("id") String productId,
                                  Model model) {
-        model.addAttribute("product",
-                productService.getProductById(productId));
+        Product product =  productService.getProductById(productId);
+        model.addAttribute("product",product);
         return "product";
     }
     @RequestMapping("/{category}/{price}")
@@ -90,5 +98,13 @@ public class ProductController {
         binder.setAllowedFields("productId","name","unitPrice","description","manufacturer",
                 "category","unitsInStock", "productImage","condition");
         binder.setDisallowedFields("unitsInOrder","discontinued");
+    }
+    @ExceptionHandler(NoProductFound.class)
+    public ModelAndView handleError(HttpServletRequest req, NoProductFound exception) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("invalidProductId", exception.getProductId());
+        mav.addObject("url",req.getRequestURL()+"?"+req.getQueryString());
+        mav.setViewName("productNotFound");
+        return mav;
     }
 }

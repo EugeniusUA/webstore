@@ -28,13 +28,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(String productId) {
-        Product productById = null;
-        for(Product product: getAllProducts()){
-            if (productId.equalsIgnoreCase(product.getProductId())){
-                productById =  product;
-            }
-        }
-       return productById;
+       return productRepository.getProductById(productId);
     }
 
     @Override
