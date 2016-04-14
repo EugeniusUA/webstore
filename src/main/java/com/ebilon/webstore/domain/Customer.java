@@ -1,17 +1,22 @@
 package com.ebilon.webstore.domain;
 
 
-public class Customer {
+import java.io.Serializable;
+
+public class Customer implements Serializable {
+    private static final long serialVersionUID = 2284040482222162898L;
     private String customerId;
     private String name;
-    private String address;
-    private long noOfOrderedMade;
-
-    public Customer(String customerId, String name, String address, long noOfOrderedMade) {
+    private Address billingAddress;
+    private String phoneNumber;
+    public Customer() {
+        super();
+        this.billingAddress = new Address();
+    }
+    public Customer(String customerId, String name) {
+        this();
         this.customerId = customerId;
         this.name = name;
-        this.address = address;
-        this.noOfOrderedMade = noOfOrderedMade;
     }
 
     public String getCustomerId() {
@@ -30,20 +35,20 @@ public class Customer {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
+    public Address getBillingAddress() {
+        return billingAddress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setBillingAddress(Address billingAddress) {
+        this.billingAddress = billingAddress;
     }
 
-    public long getNoOfOrderedMade() {
-        return noOfOrderedMade;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setNoOfOrderedMade(long noOfOrderedMade) {
-        this.noOfOrderedMade = noOfOrderedMade;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     @Override
@@ -53,19 +58,20 @@ public class Customer {
 
         Customer customer = (Customer) o;
 
-        if (noOfOrderedMade != customer.noOfOrderedMade) return false;
-        if (!customerId.equals(customer.customerId)) return false;
-        if (!name.equals(customer.name)) return false;
-        return address != null ? address.equals(customer.address) : customer.address == null;
+        if (customerId != null ? !customerId.equals(customer.customerId) : customer.customerId != null) return false;
+        if (name != null ? !name.equals(customer.name) : customer.name != null) return false;
+        if (billingAddress != null ? !billingAddress.equals(customer.billingAddress) : customer.billingAddress != null)
+            return false;
+        return phoneNumber != null ? phoneNumber.equals(customer.phoneNumber) : customer.phoneNumber == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = customerId.hashCode();
-        result = 31 * result + name.hashCode();
-        result = 31 * result + (address != null ? address.hashCode() : 0);
-        result = 31 * result + (int) (noOfOrderedMade ^ (noOfOrderedMade >>> 32));
+        int result = customerId != null ? customerId.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (billingAddress != null ? billingAddress.hashCode() : 0);
+        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
         return result;
     }
 }

@@ -1,5 +1,6 @@
 package com.ebilon.webstore.service.impl;
 
+import com.ebilon.webstore.exception.InvalidCartException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,5 +25,12 @@ public class CartServiceImpl implements CartService{
 
     public void delete(String cartId) {
         cartRepository.delete(cartId);
+    }
+    public Cart validate(String cartId) {
+        Cart cart = cartRepository.read(cartId);
+        if(cart==null || cart.getCartItems().size()==0) {
+            throw new InvalidCartException(cartId);
+        }
+        return cart;
     }
 }
