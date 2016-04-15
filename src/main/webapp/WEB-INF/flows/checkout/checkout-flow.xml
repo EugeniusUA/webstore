@@ -13,8 +13,7 @@ http://www.springframework.org/schema/webflow/spring-webflow.xsd">
     </action-state>
     <view-state id="collectCustomerInfo" view="collectCustomerInfo.jsp"
                 model="order">
-        <transition on="customerInfoCollected" to="collectShippingDetail"
-        />
+        <transition on="customerInfoCollected" to="collectShippingDetail"/>
     </view-state>
     <view-state id="collectShippingDetail" model="order">
         <transition on="shippingDetailCollected" to="orderConfirmation" />

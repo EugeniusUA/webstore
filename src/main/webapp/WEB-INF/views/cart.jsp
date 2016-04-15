@@ -1,5 +1,5 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -25,9 +25,10 @@
             <a class="btn btn-danger pull-left"
                ng-click="clearCart()"> <span
                     class="glyphicon glyphicon-remove-sign"></span> Clear Cart
-            </a> <a href="#" class="btn btn-success pull-right"> <span
-                class="glyphicon-shopping-cart glyphicon"></span> Check out
-        </a>
+            </a>
+            <a href="<spring:url value="/checkout?cartId=${cartId}"/>"
+               class="btn btn-success pull-right">
+                <span class="glyphicon-shopping-cart glyphicon"/> Check out </a>
         </div>
         <table class="table table-hover">
             <tr>
@@ -43,7 +44,7 @@
                 <td>{{item.quantity}}</td>
                 <td>{{item.totalPrice}}</td>
                 <td><a href="#" class="label label-danger" ngclick="removeFromCart(item.product.productId)"> <span
-                        class="glyphicon glyphicon-remove" /></span> Remove
+                        class="glyphicon glyphicon-remove"/></span> Remove
                 </a></td>
             </tr>
             <tr>

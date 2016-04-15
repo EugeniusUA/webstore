@@ -90,4 +90,16 @@ public class Address implements Serializable {
         result = 31 * result + (zipCode != null ? zipCode.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "doorNo='" + doorNo + '\'' +
+                ", streetName='" + streetName + '\'' +
+                ", areaName='" + areaName + '\'' +
+                ", state='" + state + '\'' +
+                ", country='" + country + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                '}';
+    }
 }
